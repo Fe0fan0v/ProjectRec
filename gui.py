@@ -73,7 +73,7 @@ top.configure(background='#CDCDCD')
 label=Label(top,background='#CDCDCD', font=('arial',35,'bold'))
 # label.grid(row=0,column=1)
 sign_image = Label(top,bd=10)
-plate_image=Label(top,bd=10)
+plate_image= Label(top,bd=10)
 def classify(file_path):
 
     #######################################################
