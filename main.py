@@ -10,7 +10,7 @@ def clean2_plate(plate):
     _, thresh = cv2.threshold(gray_img, 110, 255, cv2.THRESH_BINARY)
     if cv2.waitKey(0) & 0xff == ord('q'):
         pass
-    num_contours, hierarchy = cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    num_contours, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     if num_contours:
         contour_area = [cv2.contourArea(c) for c in num_contours]
@@ -55,13 +55,13 @@ def ratio_and_rotation(rect):
     else:
         angle = 90 + rect_angle
 
-    if angle>15:
+    if angle > 15:
         return False
 
     if height == 0 or width == 0:
         return False
 
-    area = height*width
+    area = height * width
     if not ratioCheck(area, width, height):
         return False
     else:
@@ -87,7 +87,9 @@ num_contours, hierarchy= cv2.findContours(morph_img_threshold, mode=cv2.RETR_EXT
 cv2.drawContours(img2, num_contours, -1, (0, 255, 0), 1)
 
 
-for i,cnt in enumerate(num_contours):
+tess.pytesseract.tesseract_cmd = "/home/vadim/tesseract"
+
+for i, cnt in enumerate(num_contours):
 
     min_rect = cv2.minAreaRect(cnt)
 
@@ -100,12 +102,12 @@ for i,cnt in enumerate(num_contours):
         if cv2.waitKey(0) & 0xff == ord('q'):
             pass
 
-        if(isMaxWhite(plate_img)):
+        if isMaxWhite(plate_img):
             clean_plate, rect = clean2_plate(plate_img)
             if rect:
                 fg = 0
                 x1, y1, w1, h1 = rect
                 x, y, w, h = x + x1, y + y1, w1, h1
                 plate_im = Image.fromarray(clean_plate)
-                text = tess.image_to_string(plate_im, lang='eng')
+                text = tess.image_to_string(plate_im, lang='eng-rus')
                 print("Number  Detected Plate Text : ", text)
